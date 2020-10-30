@@ -29,12 +29,31 @@ public:
 //运算函数-----------------------------------------------
     Vector<Array> & Plus(const Vector<Array> &vec); //两个向量相加(当长度不同时无法相加)
     Vector<Array> & Plus(int pos,Array a_num); //向量中第pos个数据加a_num(从0开始)
-    /*Vector<Array> & ImPlus(const Vector<Array> &vec);   //两个向量强制相加(当长度不同时可以相加)
-    Vector<Array> & operator+(const Vector<Array> &vec); //两个向量相加，效果和Plus相同
-    Vector<Array> & Minus(const Vector<Array> &vec);//两个向量相减，
-    Vector<Array> & operator-(const Vector<Array> &vec); //两个向量相减，效果和Minus相同
-    double operator*(const Vector<Array> &vec); //两个向量相乘
-    double Multiply(const Vector<Array> &vec); //两个向量相乘*/
+    Vector<Array> & ImPlus(const Vector<Array> &vec);   //两个向量强制相加(当长度不同时可以相加)
+
+    Vector<Array>  operator+(const Vector<Array> &vec); //重载+运算符
+    Vector<Array>  operator+(const Array Num); //重载+运算符
+    Vector<Array> & operator+=(const Vector<Array> &vec); //重载+=运算符
+    Vector<Array> & operator+=(const Array Num); //重载+=运算符
+
+    Vector<Array>  operator-(const Vector<Array> &vec); //重载-运算符
+    Vector<Array>  operator-(const Array Num); //重载-运算符
+    Vector<Array> & operator-=(const Vector<Array> &vec); //重载-=运算符
+    Vector<Array> & operator-=(const Array Num); //重载-=运算符
+
+    Array operator*(const Vector<Array> &vec);//重载*运算符,点乘
+    Vector<Array>  operator*(const Array Num); //重载*运算符，每个乘以Num
+    Vector<Array> & operator*=(const Array Num); //重载*=运算符
+
+    friend Vector operator+(const Array Num,Vector<Array> &vec)
+    {
+        return vec+Num;   //+友元函数
+    }
+    friend Vector operator*(const Array Num,Vector<Array>&vec)
+    {
+        return vec*Num;
+    }
+
 //成员数据--------------------------------------------------
 private:
     Array *a;
@@ -67,7 +86,6 @@ template <typename Array>
 Vector<Array>::Vector(const Vector<Array> &A) //深拷贝构造
 {
     num=A.num;
-    delete [] a;
     if(num>0)
     {
         a=new Array[num];
@@ -278,5 +296,200 @@ Vector<Array> & Vector<Array>::Plus(int pos,Array a_num)
     else
         a[pos]+=a_num;
     return *this;
+}
+
+template <typename Array>
+Vector<Array> & Vector<Array>::ImPlus(const Vector &vec)
+{
+    if(num==0)
+        cout<<"Can't plus \"vec\" to Vector!"<<endl;
+    else
+    {
+        for(int i=0; i<(vec.num<=num?vec.num:num); i++)
+            a[i]+=vec.a[i];
+    }
+    return *this;
+}
+
+template <typename Array>
+Vector<Array>  Vector<Array>::operator+(const Vector &vec)
+{
+
+    if(num==vec.num&&num!=0)
+    {
+        Vector<Array> temp(num);
+        for(int i=0; i<num; i++)
+            temp.a[i]=vec.a[i]+a[i];
+        return temp;
+    }
+    else
+    {
+        cout<<"Can't plus this two Vector! "<<endl;
+        throw(int)-1;
+    }
+}
+
+template <typename Array>
+Vector<Array>  Vector<Array>::operator+(const Array Num)
+{
+
+    if(num!=0)
+    {
+        Vector<Array> temp(num);
+        for(int i=0; i<num; i++)
+            temp.a[i]=Num+a[i];
+        return temp;
+    }
+    else
+        cout<<"Can't plus this num! "<<endl;
+    throw(int)-1;
+
+}
+
+template <typename Array>
+Vector<Array> & Vector<Array>::operator+=(const Vector &vec)
+{
+    if(num==vec.num&&num!=0)
+    {
+        for(int i=0; i<num; i++)
+            a[i]+=vec.a[i];
+    }
+    else
+        cout<<"Can't plus this two Vector! "<<endl;
+    return *this;
+}
+
+template <typename Array>
+Vector<Array> & Vector<Array>::operator+=(const Array Num)
+{
+    if(num!=0)
+    {
+        for(int i=0; i<num; i++)
+            a[i]+=Num;
+        return *this;
+    }
+    else
+    {
+        cout<<"Can't plus this two Vector! "<<endl;
+        throw(int)-1;
+    }
+
+}
+
+
+template <typename Array>
+Vector<Array>  Vector<Array>::operator-(const Vector &vec)
+{
+
+    if(num==vec.num&&num!=0)
+    {
+        Vector<Array> temp(num);
+        for(int i=0; i<num; i++)
+            temp.a[i]=a[i]-vec.a[i];
+        return temp;
+    }
+    else
+    {
+        cout<<"Can't minus this two Vector! "<<endl;
+        throw(int)-1;
+    }
+}
+
+template <typename Array>
+Vector<Array>  Vector<Array>::operator-(const Array Num)
+{
+
+    if(num!=0)
+    {
+        Vector<Array> temp(num);
+        for(int i=0; i<num; i++)
+            temp.a[i]=a[i]-Num;
+        return temp;
+    }
+    else
+        cout<<"Can't minus this num! "<<endl;
+    throw(int)-1;
+
+}
+
+template <typename Array>
+Vector<Array> & Vector<Array>::operator-=(const Vector &vec)
+{
+    if(num==vec.num&&num!=0)
+    {
+        for(int i=0; i<num; i++)
+            a[i]-=vec.a[i];
+    }
+    else
+        cout<<"Can't minus this two Vector! "<<endl;
+    return *this;
+}
+
+template <typename Array>
+Vector<Array> & Vector<Array>::operator-=(const Array Num)
+{
+    if(num!=0)
+    {
+        for(int i=0; i<num; i++)
+            a[i]-=Num;
+        return *this;
+    }
+    else
+    {
+        cout<<"Can't minus this two Vector! "<<endl;
+        throw(int)-1;
+    }
+
+}
+
+template <typename Array>
+Vector<Array>  Vector<Array>::operator*(const Array Num)
+{
+
+    if(num!=0)
+    {
+        Vector<Array> temp(num);
+        for(int i=0; i<num; i++)
+            temp.a[i]=a[i]*Num;
+        return temp;
+    }
+    else
+        cout<<"Can't Multiply this num! "<<endl;
+    throw(int)-1;
+
+}
+
+template <typename Array>
+Array Vector<Array>::operator*(const Vector &vec)
+{
+    Array sum=0;
+    if(num==vec.num&&num!=0)
+    {
+        for(int i=0; i<num; i++)
+            sum+=(a[i]*vec.a[i]);
+        return sum;
+    }
+    else
+    {
+        cout<<"These two Vector can't be multiplied!"<<endl;
+        throw(int)-1;
+    }
+}
+
+template <typename Array>
+Vector<Array> & Vector<Array>::operator*=(const Array Num)
+{
+    if(num!=0)
+    {
+        for(int i=0; i<num; i++)
+            a[i]*=Num;
+        return *this;
+    }
+    else
+    {
+        cout<<"Can't multiply this two Vector! "<<endl;
+        throw(int)-1;
+    }
+
 }
 #endif // VECTOR_H

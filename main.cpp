@@ -3,15 +3,18 @@
 using namespace std;
 int main()
 {
-    Vector<int> t1(5,1);
-    Vector<double> t2(5,1);
-    t2.Normalize();
-    t2.Resize(0);
-    t2.Pop();
-    t2.ShowVector();
     Vector<int> t3;
-    Vector<int> t4(1,8);
-    t4.Plus(0,3);
+    Vector<int> t4(3,8);
+    t3.Resize(5);
+    t3.ShowVector();
+    t4.Resize(5);
     t4.ShowVector();
+    t4=t3+t4;
+    t3=2+t3;
+    t3.ShowVector();
+    t3.ShowVector();
+    t4.SetVector();
+    (t4-t3).ShowVector();
+    cout<<t4<<endl;
     return 0;
 }
