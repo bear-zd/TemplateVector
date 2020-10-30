@@ -10,8 +10,8 @@ int main()
     t2.Pop();
     t2.ShowVector();
     Vector<int> t3;
-    t3.Append(9);
-    t3.ShowD();
-    t3.ShowVector();
+    Vector<int> t4(1,8);
+    t4.Plus(0,3);
+    t4.ShowVector();
     return 0;
 }

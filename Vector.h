@@ -16,7 +16,7 @@ public:
     void ShowVector() const; //ÏòÁ¿Õ¹Ê¾
     void ShowD() const; //Õ¹Ê¾Î¬¶È
     int GetD() const; //»ñµÃÎ¬¶È
-    Array Mod() const; //È¡Ä£³¤
+    double Mod() const; //È¡Ä£³¤
     Vector<Array> & Normalize();//µ¥Î»»¯
     bool Empty() const;//È·ÈÏÏòÁ¿ÊÇ·ñÎª¿Õ
 //²Ù×÷º¯Êı-----------------------------------------------
@@ -27,9 +27,9 @@ public:
     int Find(const Array f_num) const;//²éÕÒ²¢·µ»ØÊı×ÖÔÚÏòÁ¿ÖĞµÄÎ»ÖÃ£¬Èç¹ûÃ»ÓĞÔòÊä³öÎª-1
 
 //ÔËËãº¯Êı-----------------------------------------------
-    /*Vector<Array> & Plus(const Vector<Array> &vec); //Á½¸öÏòÁ¿Ïà¼Ó(µ±³¤¶È²»Í¬Ê±ÎŞ·¨Ïà¼Ó)
+    Vector<Array> & Plus(const Vector<Array> &vec); //Á½¸öÏòÁ¿Ïà¼Ó(µ±³¤¶È²»Í¬Ê±ÎŞ·¨Ïà¼Ó)
     Vector<Array> & Plus(int pos,Array a_num); //ÏòÁ¿ÖĞµÚpos¸öÊı¾İ¼Óa_num(´Ó0¿ªÊ¼)
-    Vector<Array> & ImPlus(const Vector<Array> &vec);   //Á½¸öÏòÁ¿Ç¿ÖÆÏà¼Ó(µ±³¤¶È²»Í¬Ê±¿ÉÒÔÏà¼Ó)
+    /*Vector<Array> & ImPlus(const Vector<Array> &vec);   //Á½¸öÏòÁ¿Ç¿ÖÆÏà¼Ó(µ±³¤¶È²»Í¬Ê±¿ÉÒÔÏà¼Ó)
     Vector<Array> & operator+(const Vector<Array> &vec); //Á½¸öÏòÁ¿Ïà¼Ó£¬Ğ§¹ûºÍPlusÏàÍ¬
     Vector<Array> & Minus(const Vector<Array> &vec);//Á½¸öÏòÁ¿Ïà¼õ£¬
     Vector<Array> & operator-(const Vector<Array> &vec); //Á½¸öÏòÁ¿Ïà¼õ£¬Ğ§¹ûºÍMinusÏàÍ¬
@@ -179,14 +179,14 @@ Array Vector<Array> ::operator[](int pos)
         throw(int)-1;
 }
 template <typename Array>
-Array Vector<Array>::Mod() const
+double Vector<Array>::Mod() const
 {
 
-    Array sum=0;
+    double sum=0;
     if(num==0)throw(int) -1;
     for(int i=0; i<num; i++)
         sum+=a[i]*a[i];
-    return sqrt((Array)sum);
+    return sqrt((double)sum);
 }
 template <typename Array>
 Vector<Array> & Vector<Array>::Normalize()
@@ -257,4 +257,26 @@ int Vector<Array> ::Find(const Array f_num) const//²éÕÒ²¢·µ»ØÊı×ÖÔÚÏòÁ¿ÖĞµÄÎ»ÖÃ£
     return -1;
 }
 
+template <typename Array>
+Vector<Array> & Vector<Array>:: Plus(const Vector &vec)
+{
+    if(num==vec.num&&num!=0)
+    {
+        for(int i=0; i<num; i++)
+            a[i]+=vec.a[i];
+    }
+    else
+        cout<<"Can't plus this two Vector! "<<endl;
+    return *this;
+}
+
+template <typename Array>
+Vector<Array> & Vector<Array>::Plus(int pos,Array a_num)
+{
+    if(pos>=num||pos<0)
+        cout<<"illegel index "<<endl;
+    else
+        a[pos]+=a_num;
+    return *this;
+}
 #endif // VECTOR_H
