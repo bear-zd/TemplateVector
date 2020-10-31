@@ -372,7 +372,7 @@ Vector<Array> & Vector<Array>::ImPlus(const Vector &vec)
     }
     return *this;
 }
-//________________________________________________________________________________________________________________________
+
 template <typename Array>
 Vector<Array>  Vector<Array>::operator+(const Vector &vec)
 {
@@ -432,6 +432,7 @@ Vector<Array> & Vector<Array>::operator+=(const Vector &vec)
     {
         for(int i=0; i<num; i++)
             a[i]+=vec.a[i];
+        return *this;
     }
     else
     {
@@ -528,6 +529,7 @@ Vector<Array> & Vector<Array>::operator-=(const Vector &vec)
     {
         for(int i=0; i<num; i++)
             a[i]-=vec.a[i];
+        return *this;
     }
     else
     {
