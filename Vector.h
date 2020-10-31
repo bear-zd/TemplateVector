@@ -431,7 +431,8 @@ Vector<Array> & Vector<Array>::operator+=(const Vector &vec)
     if(num==vec.num&&num!=0)
     {
         for(int i=0; i<num; i++)
-            a[i]+=vec.a[i];
+            a[i]=vec.a[i]+a[i];
+        return *this;
     }
     else
     {
@@ -528,6 +529,7 @@ Vector<Array> & Vector<Array>::operator-=(const Vector &vec)
     {
         for(int i=0; i<num; i++)
             a[i]-=vec.a[i];
+        return *this;
     }
     else
     {
