@@ -62,13 +62,21 @@ private:
 template <typename Array>
 ostream&  operator<<(ostream&  out,Vector<Array>& t)     // Êä³öÁ÷ÖØÔØÉùÃ÷¼°ÊµÏÖ
 {
-    if(t.GetD()==0)
-        out<<"Nothing to output";
-    else
+    try
     {
-        out<<"[ ";
-        for(int i=0; i<t.GetD(); i++)
-            out<<t[i]<<(i==t.GetD()-1?" ]":" , ");  //ÀûÓÃÈıÔª²Ù×÷·û°´¸ñÊ½Êä³ö
+        if(t.GetD()==0)
+            throw(int)-1;
+
+        else
+        {
+            out<<"[ ";
+            for(int i=0; i<t.GetD(); i++)
+                out<<t[i]<<(i==t.GetD()-1?" ]":" , ");  //ÀûÓÃÈıÔª²Ù×÷·û°´¸ñÊ½Êä³ö
+        }
+    }
+    catch (int)
+    {
+        out<<"Nothing to output";
     }
     return out;
 }
@@ -134,7 +142,8 @@ void Vector<Array> ::ShowVector() const     //³£Á¿º¯Êı£¬·ÀÖ¹¶ÔÄÚÈİµÄĞŞ¸Ä
         }
     else if (num==1)
         cout<<"[ "<<a[0]<<" ]"<<endl;
-    else cout<<"The Dimension of this Vector is 0."<<endl;
+    else
+        cout<<"The Dimension of this Vector is 0."<<endl;
     return ;
 }
 template <typename Array>
@@ -191,28 +200,52 @@ Vector<Array> & Vector<Array> ::Resize(const int Num)
 template <typename Array>
 Array Vector<Array> ::operator[](int pos)
 {
-    if(pos<num&&pos>=0)
-        return a[pos];
-    else
-        throw(int)-1;
+    try
+    {
+        if(pos<num&&pos>=0)
+            return a[pos];
+        else
+            throw(int)-1;
+    }
+    catch(int)
+    {
+        cout<<"illegal index!"<<endl;
+    }
 }
 template <typename Array>
 double Vector<Array>::Mod() const
 {
-
     double sum=0;
-    if(num==0)throw(int) -1;
-    for(int i=0; i<num; i++)
-        sum+=a[i]*a[i];
+    try
+    {
+
+        if(num==0)
+            throw(int) -1;
+        for(int i=0; i<num; i++)
+            sum+=a[i]*a[i];
+
+    }
+    catch(int)
+    {
+        cout<<"Can't Mod this empty Vector!"<<endl;
+    }
     return sqrt((double)sum);
 }
 template <typename Array>
 Vector<Array> & Vector<Array>::Normalize()
 {
-    Array mods=this->Mod(); //µ÷ÓÃModº¯Êı
-    if(num==0) throw(int)-1; //µ±Î¬¶ÈÎª0Ê±Å×ÖÀÒì³£
-    for(int i=0; i<this->num; i++)
-        this->a[i]=this->a[i]/mods;
+    try
+    {
+        Array mods=this->Mod(); //µ÷ÓÃModº¯Êı
+        if(num==0)
+            throw(int)-1; //µ±Î¬¶ÈÎª0Ê±Å×ÖÀÒì³£
+        for(int i=0; i<this->num; i++)
+            this->a[i]=this->a[i]/mods;
+    }
+    catch(int)
+    {
+        cout<<"Can't Normalize this empty Vector!"<<endl;
+    }
     return *this;
 }
 template <typename Array>
@@ -250,7 +283,12 @@ Vector<Array> & Vector<Array> ::Append(const Array a_num)//ÔÚÄ©Î²Ìí¼ÓÒ»¸öÊı×Ö
 template <typename Array>
 Vector<Array>  & Vector<Array> ::Pop()//É¾µôÄ©Î²µÄÒ»¸öÊı×Ö
 {
-    if(num==0)
+    try
+    {
+        if(num==0)
+            throw(int)-1;
+    }
+    catch(int)
     {
         cout<<"Can't be Pop anymore!"<<endl;
         return *this;
@@ -278,39 +316,63 @@ int Vector<Array> ::Find(const Array f_num) const//²éÕÒ²¢·µ»ØÊı×ÖÔÚÏòÁ¿ÖĞµÄÎ»ÖÃ£
 template <typename Array>
 Vector<Array> & Vector<Array>:: Plus(const Vector &vec)
 {
-    if(num==vec.num&&num!=0)
+    try
     {
-        for(int i=0; i<num; i++)
-            a[i]+=vec.a[i];
+        if(num==vec.num&&num!=0)
+        {
+            for(int i=0; i<num; i++)
+                a[i]+=vec.a[i];
+        }
+        else
+            throw(int)-1;
+
+
     }
-    else
+    catch(int)
+    {
         cout<<"Can't plus this two Vector! "<<endl;
+    }
     return *this;
+
 }
 
 template <typename Array>
 Vector<Array> & Vector<Array>::Plus(int pos,Array a_num)
 {
-    if(pos>=num||pos<0)
+    try
+    {
+        if(pos>=num||pos<0)
+            throw(int)-1;
+        else
+            a[pos]+=a_num;
+    }
+    catch(int)
+    {
         cout<<"illegel index "<<endl;
-    else
-        a[pos]+=a_num;
+    }
     return *this;
 }
 
 template <typename Array>
 Vector<Array> & Vector<Array>::ImPlus(const Vector &vec)
 {
-    if(num==0)
-        cout<<"Can't plus \"vec\" to Vector!"<<endl;
-    else
+    try
     {
-        for(int i=0; i<(vec.num<=num?vec.num:num); i++)
-            a[i]+=vec.a[i];
+        if(num==0)
+            throw(int)-1;
+        else
+        {
+            for(int i=0; i<(vec.num<=num?vec.num:num); i++)
+                a[i]+=vec.a[i];
+        }
+    }
+    catch(int)
+    {
+        cout<<"Can't plus \"vec\" to Vector!"<<endl;
     }
     return *this;
 }
-
+//________________________________________________________________________________________________________________________
 template <typename Array>
 Vector<Array>  Vector<Array>::operator+(const Vector &vec)
 {
@@ -324,9 +386,17 @@ Vector<Array>  Vector<Array>::operator+(const Vector &vec)
     }
     else
     {
-        cout<<"Can't plus this two Vector! "<<endl;
-        throw(int)-1;
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
     }
+
 }
 
 template <typename Array>
@@ -341,8 +411,17 @@ Vector<Array>  Vector<Array>::operator+(const Array Num)
         return temp;
     }
     else
-        cout<<"Can't plus this num! "<<endl;
-    throw(int)-1;
+    {
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
+    }
 
 }
 
@@ -355,8 +434,17 @@ Vector<Array> & Vector<Array>::operator+=(const Vector &vec)
             a[i]+=vec.a[i];
     }
     else
-        cout<<"Can't plus this two Vector! "<<endl;
-    return *this;
+    {
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
+    }
 }
 
 template <typename Array>
@@ -370,10 +458,16 @@ Vector<Array> & Vector<Array>::operator+=(const Array Num)
     }
     else
     {
-        cout<<"Can't plus this two Vector! "<<endl;
-        throw(int)-1;
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
     }
-
 }
 
 
@@ -390,8 +484,15 @@ Vector<Array>  Vector<Array>::operator-(const Vector &vec)
     }
     else
     {
-        cout<<"Can't minus this two Vector! "<<endl;
-        throw(int)-1;
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
     }
 }
 
@@ -407,9 +508,17 @@ Vector<Array>  Vector<Array>::operator-(const Array Num)
         return temp;
     }
     else
-        cout<<"Can't minus this num! "<<endl;
-    throw(int)-1;
-
+    {
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
+    }
 }
 
 template <typename Array>
@@ -421,8 +530,17 @@ Vector<Array> & Vector<Array>::operator-=(const Vector &vec)
             a[i]-=vec.a[i];
     }
     else
-        cout<<"Can't minus this two Vector! "<<endl;
-    return *this;
+    {
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
+    }
 }
 
 template <typename Array>
@@ -436,8 +554,15 @@ Vector<Array> & Vector<Array>::operator-=(const Array Num)
     }
     else
     {
-        cout<<"Can't minus this two Vector! "<<endl;
-        throw(int)-1;
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
     }
 
 }
@@ -454,9 +579,17 @@ Vector<Array>  Vector<Array>::operator*(const Array Num)
         return temp;
     }
     else
-        cout<<"Can't Multiply this num! "<<endl;
-    throw(int)-1;
-
+    {
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
+    }
 }
 
 template <typename Array>
@@ -471,8 +604,15 @@ Array Vector<Array>::operator*(const Vector &vec)
     }
     else
     {
-        cout<<"These two Vector can't be multiplied!"<<endl;
-        throw(int)-1;
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return -1;
+        }
     }
 }
 
@@ -487,9 +627,15 @@ Vector<Array> & Vector<Array>::operator*=(const Array Num)
     }
     else
     {
-        cout<<"Can't multiply this two Vector! "<<endl;
-        throw(int)-1;
+        try
+        {
+            throw(int)-1;
+        }
+        catch(int)
+        {
+            cout<<"Can't operate!"<<endl;
+            return *this;
+        }
     }
-
 }
 #endif // VECTOR_H
