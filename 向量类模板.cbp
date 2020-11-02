@@ -31,8 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Vector.h" />
+		<Unit filename="Vector.h">
+			<Option compile="1" />
+		</Unit>
 		<Unit filename="main.cpp" />
-		<Extensions />
+		<Unit filename="test.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

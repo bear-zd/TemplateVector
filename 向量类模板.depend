@@ -13,10 +13,20 @@
 1604132428 c:\users\a8275\desktop\向量类模板\templatevector\vector.h
 	<bits/stdc++.h>
 
-1604133416 source:d:\我的文件\计算机工程与科学\git things\templatevector\main.cpp
+1604225120 source:d:\我的文件\计算机工程与科学\git things\templatevector\main.cpp
 	<bits/stdc++.h>
+	<conio.h>
 	"Vector.h"
 
-1604133577 d:\我的文件\计算机工程与科学\git things\templatevector\vector.h
+1604305843 d:\我的文件\计算机工程与科学\git things\templatevector\vector.h
 	<bits/stdc++.h>
+
+1604232828 source:d:\我的文件\计算机工程与科学\git things\templatevector\vector.h
+	<bits/stdc++.h>
+
+1604279913 source:d:\我的文件\计算机工程与科学\git things\templatevector\test.cpp
+	<bits/stdc++.h>
+	<conio.h>
+	<time.h>
+	"Vector.h"
 

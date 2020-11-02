@@ -11,8 +11,7 @@ public:
     virtual ~Vector();//析构函数
     Vector<Array> & operator=(const Vector &V);//赋值构造
 
-//属性(修改)函数----------------------------------------
-    Vector<Array> & SetVector(); //值修改
+//属性函数----------------------------------------
     void ShowVector() const; //向量展示
     void ShowD() const; //展示维度
     int GetD() const; //获得维度
@@ -20,6 +19,7 @@ public:
     Vector<Array> & Normalize();//单位化
     bool Empty() const;//确认向量是否为空
 //操作函数-----------------------------------------------
+    Vector<Array> & SetVector(); //值修改
     Array operator[](const int pos);//取值
     Vector<Array> & Resize(const int Num);//尺寸修改
     Vector<Array> & Append(const Array a_num=0);//在末尾添加一个数字
@@ -76,7 +76,7 @@ ostream&  operator<<(ostream&  out,Vector<Array>& t)     // 输出流重载声明及实现
     }
     catch (int)
     {
-        out<<"Nothing to output";
+        out<<"Nothing to output!";
     }
     return out;
 }
@@ -143,7 +143,7 @@ void Vector<Array> ::ShowVector() const     //常量函数，防止对内容的修改
     else if (num==1)
         cout<<"[ "<<a[0]<<" ]"<<endl;
     else
-        cout<<"The Dimension of this Vector is 0."<<endl;
+        cout<<"The Dimension of this Vector is 0"<<endl;
     return ;
 }
 template <typename Array>
@@ -160,11 +160,11 @@ template <typename Array>
 Vector<Array> & Vector<Array> ::Resize(const int Num)
 {
     {
-        if(Num==0&&num!=0)  //要修改到空维度，直接删除空间
+        if(Num<=0&&num!=0)  //要修改到空维度，直接删除空间
         {
             delete [] a;
             a=NULL;
-            num=Num;
+            num=0;
             return *this;
         }
         else if(Num>num)
@@ -193,7 +193,7 @@ Vector<Array> & Vector<Array> ::Resize(const int Num)
             return *this;
         }
         else if(num==Num)
-            cout<<"Nothing to operate."<<endl;
+            cout<<"Nothing to operate"<<endl;
         return *this;//考虑到了当Num<0的情况，不满足上述条件的时候直接返回。
     }
 }
@@ -209,7 +209,8 @@ Array Vector<Array> ::operator[](int pos)
     }
     catch(int)
     {
-        cout<<"illegal index!"<<endl;
+        cout<<"Illegal Index!"<<endl;
+        return -1;
     }
 }
 template <typename Array>
@@ -348,7 +349,7 @@ Vector<Array> & Vector<Array>::Plus(int pos,Array a_num)
     }
     catch(int)
     {
-        cout<<"illegel index "<<endl;
+        cout<<"Illegal Index! "<<endl;
     }
     return *this;
 }
